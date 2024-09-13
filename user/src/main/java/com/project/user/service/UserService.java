@@ -1,0 +1,16 @@
+package com.project.user.service;
+
+import com.project.user.model.LoginRequest;
+import com.project.user.model.User;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface UserService {
+    public User registerUser(User user);
+    public List<User> getAllUsers();
+    public Optional<User> getUserById(int id);
+    public User updateUser(String id,User user);
+    public void deleteUser(String id);
+    public String login(LoginRequest loginRequest);
+}
