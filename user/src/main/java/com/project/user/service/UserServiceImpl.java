@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,24 +37,22 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id);
     }
 
-
     @Override
-    public User updateUser(String id, User user) {
-        var current = userRepository.findById(id);
-        if(current.isPresent()){
-            User newUser = current.get();
-            newUser = User.builder()
-                    .username(user.getUsername())
-                    .password(user.getPassword())
-                    .email(user.getEmail())
-                    .firstName(user.getFirstName())
-                    .lastName(user.getLastName())
-                    .dob(user.getDob())
-                    .address(user.getAddress())
-                    .phone(user.getPhone())
-                    .profilePic(user.getProfilePic())
-                    .build();
-            return userRepository.save(user);
+    public User updateUser(int id, User newUser) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            User existingUser = user.get();
+            existingUser.setUsername(newUser.getUsername());
+            existingUser.setPassword(newUser.getPassword());
+            existingUser.setEmail(newUser.getEmail());
+            existingUser.setFirstName(newUser.getFirstName());
+            existingUser.setLastName(newUser.getLastName());
+            existingUser.setDob(newUser.getDob());
+            existingUser.setAddress(newUser.getAddress());
+            existingUser.setPhone(newUser.getPhone());
+            existingUser.setProfilePic(newUser.getProfilePic());
+            existingUser.setRegistrationDate(newUser.getRegistrationDate());
+            return userRepository.save(existingUser);
         }
         else{
             throw new UserNotFound("No such user exists");
@@ -60,11 +60,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String id) {
+    public void deleteUser(int id) {
         userRepository
                 .findById(id)
                 .ifPresent(user -> userRepository.delete(user));
-
     }
 
     @Override

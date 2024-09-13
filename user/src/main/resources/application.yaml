@@ -9,7 +9,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update # This can be 'create', 'update', 'validate', or 'none'
+      ddl-auto: none # This can be 'create', 'update', 'validate', or 'none'
 #    properties:
 #      hibernate:
 #        dialect: org.hibernate.dialect.MySQL8Dialect # Use MySQL8Dialect if you're using MySQL 8.x
