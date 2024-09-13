@@ -1,8 +1,11 @@
 package com.project.user.controller;
 
-import com.project.user.model.LoginRequest;
+import com.project.user.convert.Convertor;
+import com.project.user.dto.LoginRequestDto;
+import com.project.user.dto.UserDto;
 import com.project.user.model.User;
 import com.project.user.service.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,17 +18,19 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private Convertor convertor;
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        User new_user = userService.registerUser(user);
-        return new ResponseEntity<>(new_user, HttpStatus.OK);
+    public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
+        User new_user = userService.registerUser(convertor.ToEntity(userDto));
+        return new ResponseEntity<>(convertor.ToDto(new_user), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable int id) {
+    public ResponseEntity<UserDto> getUser(@PathVariable int id) {
         if(userService.getUserById(id).isPresent()) {
-            return new ResponseEntity<>(userService.getUserById(id).get(), HttpStatus.OK);
+            return new ResponseEntity<>(convertor.ToDto(userService.getUserById(id).get()), HttpStatus.OK);
         }
         else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -33,18 +38,18 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        return new ResponseEntity<>(userService.login(loginRequest), HttpStatus.OK);
+    public ResponseEntity<String> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+        return new ResponseEntity<>(userService.login(loginRequestDto), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+    public ResponseEntity<List<UserDto>> getUsers() {
+        return new ResponseEntity<>(convertor.ToDto(userService.getAllUsers()), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable int id , @RequestBody User user) {
-        return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
+    public ResponseEntity<UserDto> updateUser(@PathVariable int id , @RequestBody UserDto userDto) {
+        return new ResponseEntity<>(convertor.ToDto(userService.updateUser(id, convertor.ToEntity(userDto))), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

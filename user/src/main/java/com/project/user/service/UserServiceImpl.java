@@ -1,7 +1,7 @@
 package com.project.user.service;
 
+import com.project.user.dto.LoginRequestDto;
 import com.project.user.exception.UserNotFound;
-import com.project.user.model.LoginRequest;
 import com.project.user.model.User;
 import com.project.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Slf4j
 @Service
@@ -67,10 +65,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(LoginRequest loginRequest) {
-        log.info("Login request: {}", loginRequest);
-        var user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new UserNotFound("Try logging in with valid credentials"));
-        if(user.getPassword().equals(loginRequest.getPassword())){
+    public String login(LoginRequestDto loginRequestDto) {
+        log.info("Login request: {}", loginRequestDto);
+        var user = userRepository.findByEmail(loginRequestDto.email()).orElseThrow(() -> new UserNotFound("Try logging in with valid credentials"));
+        if(user.getPassword().equals(loginRequestDto.password())){
             return "User Logged in successfully";
         }
         else{

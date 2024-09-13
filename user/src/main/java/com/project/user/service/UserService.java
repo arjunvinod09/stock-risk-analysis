@@ -1,6 +1,6 @@
 package com.project.user.service;
 
-import com.project.user.model.LoginRequest;
+import com.project.user.dto.LoginRequestDto;
 import com.project.user.model.User;
 
 import java.util.List;
@@ -12,5 +12,5 @@ public interface UserService {
     public Optional<User> getUserById(int id);
     public User updateUser(int id,User user);
     public void deleteUser(int id);
-    public String login(LoginRequest loginRequest);
+    public String login(LoginRequestDto loginRequestDto);
 }
