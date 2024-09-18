@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: portfolio
+  datasource:
+    #    url: jdbc:mysql://localhost:3306/user
+    #    username: root
+    #    password: mysqlpass
+    #    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/user
+#    username: root
+#    password: mysqlpass
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: none # This can be 'create', 'update', 'validate', or 'none'
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL8Dialect # Use MySQL8Dialect if you're using MySQL 8.x
+
+  api:
+    base:
+      url : https://finnhub.io/api/v1
+    key: crlbi3pr01qhc7mk7do0crlbi3pr01qhc7mk7dog
+
+logging:
+  level:
+    root: debug
