@@ -8,8 +8,8 @@ import java.util.List;
 public record PortfolioRequest(
         String portfolioName,
         String description,
-        Date createdAt,
-        Date updatedAt,
+        Date created,
+        Date modified,
         long userId,
         List<Stock> stocks
 ) {

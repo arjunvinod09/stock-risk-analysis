@@ -27,23 +27,4 @@ public class ApiCallerService {
                 .retrieve()
                 .body(Quote.class);
     }
-
-//    public Weather fetchWeather(double lat , double lon){
-//        return restClient.get()
-//                .uri("/forecast?latitude={lat}&longitude={lon}&current=temperature_2m" , lat , lon)
-//                .retrieve()
-//                .body(Weather.class);
-//    }
-//
-//    public LatLon fetchLatLon(String zip, String country) {
-//        log.info("Fetching lat/lon from {} {} using url http://api.openweathermap.org/geo/1.0/zip?zip={},{}&appid={}" , zip, country, zip, country, api_key);
-//        return geoConfigClient.get()
-//                .uri(uriBuilder -> uriBuilder
-//                        .path("/zip")
-//                        .queryParam("zip", "{zip},{country}")
-//                        .queryParam("appid", "{api_key}")
-//                        .build(zip, country, api_key))
-//                .retrieve()
-//                .body(LatLon.class);
-//    }
 }

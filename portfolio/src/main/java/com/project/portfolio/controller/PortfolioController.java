@@ -19,7 +19,6 @@ public class PortfolioController {
 
     @GetMapping
     public Quote getQuote() {
-        log.info("Get Quote {} " ,apiCallerService.fetchQuote("AAPL"));
         return apiCallerService.fetchQuote("AAPL");
     }
 }

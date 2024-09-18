@@ -17,8 +17,4 @@ public class HttpConfig {
         return RestClient.create(BASE_URL);
     }
 
-//    @Bean
-//    public RestClient geoConfigClient(){
-//        return RestClient.create(base_URL);
-//    }
 }
