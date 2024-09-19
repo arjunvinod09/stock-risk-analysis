@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-//@Table
 public class Portfolio {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,5 +21,7 @@ public class Portfolio {
     private Date created;
     private Date modified;
     private long userId;
-//    private List<Stock> stocks;
+
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Stock> stocks;
 }

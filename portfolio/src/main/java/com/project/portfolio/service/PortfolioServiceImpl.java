@@ -2,7 +2,9 @@ package com.project.portfolio.service;
 
 import com.project.portfolio.dto.PortfolioRequest;
 import com.project.portfolio.entity.Portfolio;
-import com.project.portfolio.exception.PortfolioDoesNotExist;
+import com.project.portfolio.entity.Stock;
+import com.project.portfolio.entity.Transaction;
+import com.project.portfolio.exception.*;
 import com.project.portfolio.repository.PortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +40,7 @@ public class PortfolioServiceImpl implements PortfolioService {
             portfolioRepository.delete(portfolio.orElseThrow());
         }
         else {
-            throw new PortfolioDoesNotExist("No such Portfolio found to delete");
+            throw new PortfolioDoesNotExist(("No such Portfolio found to delete"));
         }
     }
 
@@ -53,6 +55,31 @@ public class PortfolioServiceImpl implements PortfolioService {
             portfolio.get().setUserId(portfolioRequest.userId());
             return portfolioRepository.save(portfolio.get());
         }
+        return null;
+    }
+
+    @Override
+    public void buyStock(int quantity, long stockId, long portfolioId) {
+
+    }
+
+    @Override
+    public void sellStock(int quantity, long stockId, long portfolioId) {
+
+    }
+
+    @Override
+    public List<Stock> getAllStocks(long portfolioId) {
+        return List.of();
+    }
+
+    @Override
+    public Optional<Stock> getStockById(long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Transaction getTransaction(long portfolioId, long stockId) {
         return null;
     }
 }

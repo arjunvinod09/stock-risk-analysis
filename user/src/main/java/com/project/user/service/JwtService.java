@@ -46,13 +46,12 @@ public class JwtService {
         return claims.getExpiration().after(Date.from(Instant.now()));
     }
 
-    private Claims getClaims(String token){
-        Claims claims=Jwts.parser()
+    private Claims getClaims(String token) {
+        return Jwts.parser()
                 .verifyWith(generatekey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-        return claims;
     }
 
     public String extractUsername(String token){

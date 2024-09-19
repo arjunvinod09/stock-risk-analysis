@@ -30,11 +30,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         log.info("Processing authentication for '{}'", request.getRequestURL());
         // Authorization    Bearer <jwt-token>
         String header = request.getHeader("Authorization");
-        log.info("Authorization header: '{}'", header);
+//        log.info("Authorization header: '{}'", header);
         // Check if the header is null or does not start with Bearer
         if (header == null || !header.startsWith("Bearer ")) {
-            log.warn(header);
-            log.warn("Invalid Authorization header");
+//            log.warn(header);
+            log.warn("Invalid Authorization header: {} " , header);
             filterChain.doFilter(request, response);
             return;
         }
