@@ -4,15 +4,27 @@ import com.project.user.convert.Convertor;
 import com.project.user.dto.LoginRequestDto;
 import com.project.user.dto.UserDto;
 import com.project.user.model.User;
+import com.project.user.service.ApiUserService;
+import com.project.user.service.JwtService;
 import com.project.user.service.UserServiceImpl;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import static org.hibernate.query.sqm.tree.SqmNode.log;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -20,6 +32,10 @@ public class UserController {
     private UserServiceImpl userService;
     @Autowired
     private Convertor convertor;
+
+    private final AuthenticationManager authenticationManager;
+    private final ApiUserService apiUserService;
+    private final JwtService jwtService;
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
@@ -38,8 +54,25 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
-        return new ResponseEntity<>(userService.login(loginRequestDto), HttpStatus.OK);
+    public ResponseEntity<Map<?,?>> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+
+        Map<Object,Object> response = new HashMap<>();
+        response.put("token", "");
+        response.put("authenticated", false);
+        Authentication authRequest = UsernamePasswordAuthenticationToken
+                .unauthenticated(loginRequestDto.email(), loginRequestDto.password());
+        Authentication authResult = authenticationManager.authenticate(authRequest);
+//        log.debug("Auth result: {}", authResult);
+        if (authResult.isAuthenticated()) {
+            UserDetails user = apiUserService.loadUserByUsername(loginRequestDto.email());
+//            log.info("User: {}", loginRequestDto.email());
+//            log.info("User: {}", user.getUsername());
+            response.put("token", jwtService.generateToken(user));
+            response.put("authenticated", true);
+        }
+        response.put("status", HttpStatus.OK.value());
+        return ResponseEntity.ok(response);
+//        return new ResponseEntity<>(userService.login(loginRequestDto), HttpStatus.OK);
     }
 
     @GetMapping
