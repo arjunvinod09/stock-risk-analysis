@@ -1,9 +1,6 @@
 package com.project.stock.controller;
 
-import com.project.stock.model.Item;
-import com.project.stock.model.MarketTrends;
-import com.project.stock.model.Stock;
-import com.project.stock.model.Stocks;
+import com.project.stock.model.*;
 import com.project.stock.service.ApiCallerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

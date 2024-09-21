@@ -6,5 +6,5 @@ import java.util.List;
 
 public class Coin {
     @JsonProperty("item")
-    List<Item> items;
+    Item item;
 }
