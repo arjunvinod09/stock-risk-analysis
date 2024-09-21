@@ -62,6 +62,8 @@ public class PortfolioController {
     getById
     delete
     update
+
+    (open feign)  ---------------->
     buyStock/quantity
     sellStock/quantity
     getAllStock
